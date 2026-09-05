@@ -25,14 +25,19 @@
                 <!-- Navigation Links filtrés par Rôle -->
                 <nav class="space-y-0.5">
                     {{-- Dashboard : Accessible à Tous --}}
-                    <a href="{{ route('dashboard') }}"
+                    {{-- <a href="{{ route('dashboard') }}"
+                        class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
+                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        <span>Dashboard</span>
+                    </a> --}}
+
+                    {{-- Projets : Chef de projet uniquement --}}
+                    @if(Auth::user()->isChefDeProjet())
+                     <a href="{{ route('chef.dashboard') }}"
                         class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
                         <i data-lucide="layout-grid" class="w-4 h-4"></i>
                         <span>Dashboard</span>
                     </a>
-
-                    {{-- Projets : Chef de projet uniquement --}}
-                    @if(Auth::user()->isChefDeProjet())
                         <a href="{{ route('chef.projects.index') }}"
                             class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('chef.projects.*') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
                             <i data-lucide="folder-kanban" class="w-4 h-4"></i>
@@ -42,24 +47,29 @@
 
                     {{-- Tâches & Timesheets : Développeur uniquement --}}
                     @if(Auth::user()->isDeveloppeur())
+                     <a href="{{ route('dev.dashboard') }}"
+                        class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
+                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        <span>Dashboard</span>
+                    </a>
                         <a href="{{ route('dev.tasks.index') }}"
                             class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('dev.tasks.*') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
                             <i data-lucide="check-square" class="w-4 h-4"></i>
                             <span>Mes Tâches</span>
                         </a>
 
-                        <a href="{{ route('dev.timesheets.index') }}"
-                            class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('dev.timesheets.*') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
-                            <i data-lucide="clock" class="w-4 h-4"></i>
-                            <span>Mes Saisies de temps</span>
-                        </a>
+                       
                     @endif
 
                     {{-- Administration : Admin uniquement --}}
                     @if(Auth::user()->isAdmin())
                         <div class="pt-3 mt-3 border-t border-white/10">
                             <p class="px-3 mb-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">Administration</p>
-                            
+                            <a href="{{ route('dashboard') }}"
+                        class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('dashboard') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
+                        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        <span>Dashboard</span>
+                    </a>
                             <a href="{{ route('admin.users.index') }}"
                                 class="flex items-center gap-2.5 px-3 py-2 {{ request()->routeIs('admin.users.*') ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:text-white hover:bg-white/5' }} rounded-md transition text-xs">
                                 <i data-lucide="users" class="w-4 h-4"></i>

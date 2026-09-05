@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +18,14 @@ class Project extends Model
         'description',
         'status',
         'deadline',
-        'created_by', // Id du Chef de Projet
+        'created_by',
+    ];
+
+    /**
+     * Transtypage des attributs.
+     */
+    protected $casts = [
+        'deadline' => 'date', // ou 'datetime'
     ];
 
     /**
@@ -44,5 +52,9 @@ class Project extends Model
     public function timesheets(): HasManyThrough
     {
         return $this->hasManyThrough(Timesheet::class, Task::class); //[cite: 2]
+    }
+    public function chef(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }

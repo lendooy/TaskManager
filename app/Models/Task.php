@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,27 +12,36 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'project_id', //[cite: 4]
-        'assigned_to', //[cite: 4]
-        'title', //[cite: 4]
-        'description', //[cite: 4]
-        'status', //[cite: 4]
-        'estimated_hours', //[cite: 4]
-        'deadline', // Date limite imposée par le chef de projet
+        'project_id',
+        'assigned_to',
+        'title',
+        'description',
+        'status',
+        'estimated_hours',
+        'deadline',
     ];
 
+    /**
+     * Projet auquel appartient la tâche
+     */
     public function project(): BelongsTo
     {
-        return $this->belongsTo(Project::class); //[cite: 4]
+        return $this->belongsTo(Project::class);
     }
 
-    public function assignee(): BelongsTo
+    /**
+     * Développeur assigné à la tâche
+     */
+    public function assignedTo(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'assigned_to'); //[cite: 4]
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
+    /**
+     * Saisies de temps (timesheets) associées à la tâche
+     */
     public function timesheets(): HasMany
     {
-        return $this->hasMany(Timesheet::class); //[cite: 4]
+        return $this->hasMany(Timesheet::class);
     }
 }

@@ -47,10 +47,15 @@ class ProjectController extends Controller
     {
         $this->authorizeProject($project);
 
-        $project->load(['developers', 'tasks.assignee']);
+        // Utilisation de assignedTo au lieu de assignee
+        $project->load(['developers', 'tasks.assignedTo']);
         
-        // Récupération des développeurs disponibles à affecter
-        $availableDevelopers = User::whereHas('role', fn($q) => $q->where('name', 'Développeur'))
+        // Récupération des développeurs non encore affectés à ce projet
+        $availableDevelopers = User::where(function ($query) {
+                $query->whereHas('role', fn($q) => $q->where('name', 'Développeur')
+                                                   ->orWhere('name', 'developpeur'))
+                      ->orWhere('role_id', 3); // Support si vous utilisez un role_id fixe
+            })
             ->whereNotIn('id', $project->developers->pluck('id'))
             ->get();
 

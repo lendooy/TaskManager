@@ -8,31 +8,46 @@
     </a>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="space-y-4">
     @forelse($projects as $project)
-        <div class="bg-white p-6 rounded-lg shadow border-t-4 border-indigo-600 flex flex-col justify-between">
-            <div>
-                <div class="flex justify-between items-start mb-2">
-                    <h2 class="text-xl font-bold text-gray-900">{{ $project->name }}</h2>
-                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-blue-100 text-blue-800">
+        <div class="bg-white p-5 rounded-lg shadow border border-gray-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            
+            <div class="md:w-5/12">
+                <div class="flex items-center gap-3 mb-1">
+                    <h2 class="text-lg font-bold text-gray-900">{{ $project->name }}</h2>
+                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-blue-100 text-blue-800 whitespace-nowrap">
                         {{ $project->status }}
                     </span>
                 </div>
-                <p class="text-gray-600 text-sm mb-4">{{ Str::limit($project->description, 100) }}</p>
-                <div class="text-xs text-gray-500 space-y-1">
-                    <p>Développeurs : <strong>{{ $project->developers->count() }}</strong></p>
-                    <p>Tâches : <strong>{{ $project->tasks->count() }}</strong></p>
-                    <p>Délai : <strong>{{ $project->deadline ? \Carbon\Carbon::parse($project->deadline)->format('d/m/Y') : 'Non défini' }}</strong></p>
+                <p class="text-gray-600 text-sm">{{ Str::limit($project->description, 120) }}</p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6 text-xs text-gray-600 md:w-4/12">
+                <div>
+                    <span class="block text-gray-400">Développeurs</span>
+                    <strong class="text-sm text-gray-800">{{ $project->developers->count() }}</strong>
+                </div>
+                <div>
+                    <span class="block text-gray-400">Tâches</span>
+                    <strong class="text-sm text-gray-800">{{ $project->tasks->count() }}</strong>
+                </div>
+                <div>
+                    <span class="block text-gray-400">Délai</span>
+                    <strong class="text-sm text-gray-800">
+                        {{ $project->deadline ? \Carbon\Carbon::parse($project->deadline)->format('d/m/Y') : 'Non défini' }}
+                    </strong>
                 </div>
             </div>
-            <div class="mt-6">
-                <a href="{{ route('chef.projects.show', $project) }}" class="block text-center bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-2 rounded transition">
+
+            <div class="md:w-2/12 text-right">
+                <a href="{{ route('chef.projects.show', $project) }}" class="inline-block w-full md:w-auto text-center bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-4 py-2 rounded transition text-sm">
                     Gérer le projet
                 </a>
             </div>
+
         </div>
     @empty
-        <div class="col-span-3 text-center py-8 text-gray-500">
+        <div class="bg-white rounded-lg shadow border border-gray-200 text-center py-8 text-gray-500">
             Aucun projet créé pour le moment.
         </div>
     @endforelse
